@@ -1,0 +1,12 @@
+8cfdf33f9ce54bf6ce9ddaed0e0ab09c *DESCRIPTION
+ad30336eb086b9983877c3ece5e9ca0b *NAMESPACE
+74300fb24780f9420a973467304ec604 *R/check.power.R
+7215b81b810bd2d4db530cfcc1d460c4 *R/sim.counts.R
+05681fde442904d283ec26fdfb5b72fb *R/ssize.twoSampVaryDelta.R
+ac23756a63f5d7a0779e91377aebe6d2 *R/ssizeRNA_single.R
+e804e8c6b45ac28f51bc2b496684d541 *R/ssizeRNA_vary.R
+b558715140e5a8a05c33266b31a7a646 *man/check.power.Rd
+3c32f07e42be48fbf06dd4560456b798 *man/sim.counts.Rd
+af5a48f1926d7518c67ccd0ec3ddaa92 *man/ssize.twoSampVaryDelta.Rd
+ea0fe05248de72a2fe8dd911b3d9366b *man/ssizeRNA_single.Rd
+71c0f58cd57a1cd71ce8580350cc2827 *man/ssizeRNA_vary.Rd
