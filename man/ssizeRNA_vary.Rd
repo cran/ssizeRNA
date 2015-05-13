@@ -4,12 +4,12 @@
 \alias{ssizeRNA_vary}
 \title{Sample Size Calculations for Two-Sample RNA-seq Experiments with Differing Mean and Dispersion Among Genes}
 \usage{
-ssizeRNA_vary(nG = 10000, pi0 = 0.95, mu, disp, logfc, up = 0.5,
+ssizeRNA_vary(nGenes = 10000, pi0 = 0.95, mu, disp, logfc, up = 0.5,
   replace = TRUE, m = 200, fdr = 0.05, power = 0.8, maxN = 35,
   side = "two-sided", cex.title = 1.15, cex.legend = 1)
 }
 \arguments{
-\item{nG}{total number of genes.}
+\item{nGenes}{total number of genes.}
 
 \item{pi0}{a vector (or scalar) of proportions of non-differentially expressed genes}
 
@@ -60,8 +60,10 @@ If the total number of genes is larger than length of \code{mu} or \code{disp},
 \examples{
 library(edgeR)
 library(Biobase)
-load(url("http://bowtie-bio.sourceforge.net/recount/ExpressionSets/hammer_eset.RData"))
+
 ## load hammer dataset (Hammer, P. et al., 2010)
+data(hammer.eset)
+
 counts <- exprs(hammer.eset)[, phenoData(hammer.eset)$Time == "2 weeks"]
 counts <- counts[rowSums(counts) > 0,]
 trt <- factor(phenoData(hammer.eset)$protocol[phenoData(hammer.eset)$Time == "2 weeks"])

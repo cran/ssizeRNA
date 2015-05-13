@@ -7,7 +7,7 @@
 #' A plot of power versus sample size is generated.
 #' 
 #' @import edgeR limma
-#' @param nG total number of genes.
+#' @param nGenes total number of genes.
 #' @param pi0 a vector (or scalar) of proportions of non-differentially expressed genes.
 #' @param mu a scalar of mean counts in control group from which to simulate.
 #' @param disp a scalar of dispersion parameter from which to simulate.
@@ -57,17 +57,17 @@
 #' 
 #' @export
 #' 
-ssizeRNA_single <- function(nG = 10000, pi0 = 0.95, mu, disp, logfc, up = 0.5, replace = TRUE,
+ssizeRNA_single <- function(nGenes = 10000, pi0 = 0.95, mu, disp, logfc, up = 0.5, replace = TRUE,
                             m = 200, fdr = 0.05, power = 0.8, maxN = 35, 
                             side = "two-sided", cex.title = 1.15, cex.legend = 1){ 
 
   arg = list(
-    nG = nG,  # total number of genes
+    nGenes = nGenes,  # total number of genes
     pi0 = pi0,  # proportion of non-differentially expressed genes
     group = rep(c(1, 2), each = m)  # treatment groups
   )
   
-  sim <- sim.counts(arg, mu, disp, logfc, up, replace)
+  sim <- sim.counts(arg, mu, disp, logfc, up, replace=replace)
 
   d_cpm <- DGEList(sim$counts)
   d_cpm <- calcNormFactors(d_cpm)

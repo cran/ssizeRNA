@@ -40,24 +40,26 @@ for RNA-seq experiments with given mean, dispersion and log fold change.
 A count data matrix is generated.
 }
 \details{
-\code{arg = list(nG, pi0, group)} where \code{nG} is the total number of genes, \code{pi0}
+\code{arg = list(nGenes, pi0, group)} where \code{nGenes} is the total number of genes, \code{pi0}
 is the proportion of non-differentially expressed genes, and \code{group} is the treatment groups.
 
 If the total number of genes is larger than length of \code{mu} or \code{disp},
 \code{replace} always equals \code{TRUE}.
 }
 \examples{
-arg <- list(nG = 10000,                      ## total number of genes
-            pi0 = 0.8,                       ## proportion of non-differentially expressed genes
+arg <- list(nGenes = 10000,   ## total number of genes
+            pi0 = 0.8,        ## proportion non-differentially-expressed
             group = rep(c(1, 2), each = 3))  ## treatment groups
-mu <- 10                                     ## mean counts in control group for all genes
-disp <- 0.1                                  ## dispersion for all genes
-logfc <- log(2)                              ## log fold change for up-regulated genes
+mu <- 10                                     ## mean counts in control group
+disp <- 0.1                                  ## dispersion across all genes
+logfc <- log(2)                              ## log FC difference for DEGs
 
-RNA_simu <- sim.counts(arg, mu, disp, logfc, up = 0.5, replace = TRUE)
-RNA_simu$counts                              ## count data matrix
+sim <- sim.counts(arg, mu, disp, logfc, up = 0.5, replace = TRUE)
+sim$counts                              ## count data matrix
 }
 \author{
-Ran Bi \email{biran@iastate.edu}, Peng Liu \email{pliu@iastate.edu}
+Ran Bi \email{biran@iastate.edu},
+        Peng Liu \email{pliu@iastate.edu},
+        Tim Triche \email{tim.triche@gmail.com}
 }
 

@@ -2,73 +2,74 @@
 % Please edit documentation in R/check.power.R
 \name{check.power}
 \alias{check.power}
-\title{Average Power and True FDR Based on Voom and Limma Pipeline}
+\title{Average Power and True FDR Based on limma/voom RNAseq Analysis Pipeline}
 \usage{
-check.power(arg, k, fdr, mu, disp, logfc)
+check.power(nGenes, meanCounts, dispersion, group, fdr = 0.05, pi0 = 0.8,
+  logfc = 1, sims = 20)
 }
 \arguments{
-\item{arg}{a list of global parameters to pass into the function, such as total number of genes,
-proportion of non-differentially expressed genes and treatment groups. See Details for more information.}
+\item{nGenes}{total number of genes to test for differential expression.}
 
-\item{k}{number of iterations.}
+\item{meanCounts}{mean counts across all tested genes in the control group.}
 
-\item{fdr}{the false discovery rate to be controlled.}
+\item{dispersion}{mean dispersion across all genes in the control group.}
 
-\item{mu}{a scalar of mean counts in control group from which to simulate.}
+\item{group}{treatment group assignments for simulations.}
 
-\item{disp}{a scalar of dispersion parameter from which to simulate.}
+\item{fdr}{the target false discovery rate to be controlled.}
 
-\item{logfc}{log fold change between treatment group and control group.}
+\item{pi0}{proportion of non-differentially expressed genes.}
+
+\item{logfc}{minimum DE log fold change between treatment and control groups.}
+
+\item{sims}{number of simulations to run when computing power and FDR.}
 }
 \value{
-\item{pow_bh_ave}{average power when controlling FDR by Benjamini
-and Hochberg (1995) method.}
+\item{pow_bh_ave}{average power when controlling FDR
+                          by Benjamini and Hochberg (1995) method.}
 
-\item{fdr_bh_ave}{true false discovery rate when controlling FDR by Benjamini
-and Hochberg (1995) method.}
+\item{fdr_bh_ave}{true false discovery rate when controlling FDR
+                          by Benjamini and Hochberg (1995) method.}
 
-\item{pow_bh_ave}{average power when controlling FDR by q-value procedure
-(Storey et al., 2004).}
+\item{pow_bh_ave}{average power when controlling FDR
+                          by q-value procedure (Storey et al., 2004).}
 
-\item{fdr_bh_ave}{true false discovery rate when controlling FDR by q-value procedure
-(Storey et al., 2004).}
+\item{fdr_bh_ave}{true false discovery rate when controlling FDR
+                          by q-value procedure (Storey et al., 2004).}
 }
 \description{
-For the voom and limma pipeline method, when we control false discovery rate by using both Benjamini
-and Hochberg (1995) method and q-value procedure (Storey et al., 2004), \code{check.power} calculates
-average power and true FDR for given sample size, user-specified proportions of non-differentially
-expressed genes, number of iterations, FDR level to control,
-mean counts in control group, dispersion, and log fold change.
-}
-\details{
-\code{arg = list(nG, pi0, group)} where \code{nG} is the total number of genes, \code{pi0}
-is the proportion of non-differentially expressed genes, and \code{group} is the treatment groups.
+For the limma/voom RNAseq analysis pipeline, when we control false discovery
+rate by using the Benjamini and Hochberg step-up procedure (1995)
+and/or Storey and Tibshirani's q-value procedure (Storey et al, 2004),
+\code{check.power} calculates average power and true FDR for given sample
+size, user-specified proportions of non-differentially expressed genes,
+number of iterations, FDR level to control, mean counts in control group,
+dispersion, and log fold change.
 }
 \examples{
-library(edgeR)
+library(limma)
 library(qvalue)
-arg = list(
-  nG = 10000,
-  pi0 = 0.8,
-  group = rep(c(1, 2), each = 13)
-)
+nGenes <- 10000                          ## number of genes to test for DE
+meanCounts <- 5                          ## mean read counts in control group
+dispersion <- 0.1                        ## mean dispersion across all genes
+group <- rep(c(1, 2), each = 13)         ## group assignments for simulations
 
-k <- 2                                   ## number of simulations (defined by user)
-fdr <- 0.05                              ## the false discovery rate to be controlled
-mu <- 10                                 ## mean counts in control group for all genes
-disp <- 0.1                              ## dispersion for all genes
-logfc <- log(2)                          ## log fold change for up-regulated genes
-
-check.power(arg, k, fdr, mu, disp, logfc)
+check.power(nGenes, meanCounts, dispersion, group)
 }
 \author{
-Ran Bi \email{biran@iastate.edu}, Peng Liu \email{pliu@iastate.edu}
+Ran Bi \email{biran@iastate.edu},
+        Peng Liu \email{pliu@iastate.edu},
+        Tim Triche \email{tim.triche@gmail.com}
 }
 \references{
-Benjamini, Y. and Hochberg, Y. (1995) Controlling the false discovery rate: a practical and
-powerful approach to multiple testing. \emph{J. R. Stat. Soc. B}, 57, 289-300.
+Benjamini, Y. and Hochberg, Y. (1995)
+            Controlling the false discovery rate: a practical and
+            powerful approach to multiple testing.
+            \emph{J. R. Stat. Soc. B}, 57, 289-300.
 
-Storey, J. D., Taylor, J. E. and Siegmund, D. (2004) Strong control, conservative point estimation and
-simultaneous rates: a unified approach. \emph{J. R. Stat. Soc. B}, 66, 187- 205.
+            Storey, J. D., Taylor, J. E. and Siegmund, D. (2004)
+            Strong control, conservative point estimation and
+            simultaneous rates: a unified approach.
+            \emph{J. R. Stat. Soc. B}, 66, 187- 205.
 }
 
