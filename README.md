@@ -23,9 +23,9 @@ d <- calcNormFactors(d)
 d <- estimateCommonDisp(d)
 d <- estimateTagwiseDisp(d)
 disp <- d$tagwise.dispersion             ## dispersion for each gene
-logfc <- log(2)
+logfc <- 1                               ## filter on minimum fold-change of 2x
 
-size <- ssizeRNA_vary(pi0 = 0.8, mu = mu, disp = disp, logfc = logfc, m = 30, maxN = 15, replace = FALSE)
+size <- ssizeRNA_vary(pi0=0.8, mu=mu, disp=disp, logfc=logfc, m=30, maxN=15, replace=F)
 ```
 
 # results
