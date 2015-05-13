@@ -8,9 +8,9 @@ library(Biobase)
 
 ## load hammer dataset (Hammer, P. et al., 2010)
 data(hammer.eset)
-counts <- exprs(hammer.eset)[, phenoData(hammer.eset)$Time == "2 weeks"]
-counts <- counts[rowSums(counts) > 0,]
-trt <- factor(phenoData(hammer.eset)$protocol[phenoData(hammer.eset)$Time == "2 weeks"])
+trt <- hammer.eset$protocol[ which(hammer.eset$Time == "2 weeks") ] 
+counts <- exprs(hammer.eset)[, which(hammer.eset$Time == "2 weeks")]
+counts <- counts[which(rowSums(counts) > 0), ]
 geom.mean = function(row){
   row[row == 0] = 0.1
   if(length(row) != 0) return(exp(sum(log(row))/length(row)))
