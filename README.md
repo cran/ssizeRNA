@@ -1,10 +1,8 @@
+![sample size plot](demo/ssizeRNA_vary.png "Plot generated from example code")
+
 # ssizeRNA
 Sample Size Calculation for RNA-Seq Data using the limma/voom modeling assumptions
 
-# a power/size plot
-![sample size plot](demo/ssizeRNA_vary.png "Plot generated from example code")
-
-# code to generate the above plot
 ```R
 library(edgeR)
 library(Biobase)
