@@ -4,13 +4,13 @@
 \alias{check.power}
 \title{Average Power and True FDR Based on limma/voom RNAseq Analysis Pipeline}
 \usage{
-check.power(nGenes, meanCounts, dispersion, group, fdr = 0.05, pi0 = 0.8,
+check.power(nGenes, mu, dispersion, group, fdr = 0.05, pi0 = 0.8,
   logfc = 1, sims = 20)
 }
 \arguments{
 \item{nGenes}{total number of genes to test for differential expression.}
 
-\item{meanCounts}{mean counts across all tested genes in the control group.}
+\item{mu}{mean counts across all tested genes in the control group.}
 
 \item{dispersion}{mean dispersion across all genes in the control group.}
 
@@ -50,11 +50,11 @@ dispersion, and log fold change.
 library(limma)
 library(qvalue)
 nGenes <- 10000                          ## number of genes to test for DE
-meanCounts <- 5                          ## mean read counts in control group
+mu <- 10                                 ## mean read counts in control group
 dispersion <- 0.1                        ## mean dispersion across all genes
 group <- rep(c(1, 2), each = 13)         ## group assignments for simulations
 
-check.power(nGenes, meanCounts, dispersion, group)
+check.power(nGenes, mu, dispersion, group)
 }
 \author{
 Ran Bi \email{biran@iastate.edu},

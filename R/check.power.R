@@ -11,7 +11,7 @@
 #' @import qvalue
 #'
 #' @param nGenes total number of genes to test for differential expression.
-#' @param meanCounts mean counts across all tested genes in the control group.
+#' @param mu mean counts across all tested genes in the control group.
 #' @param dispersion mean dispersion across all genes in the control group.
 #' @param group treatment group assignments for simulations.
 #' @param fdr the target false discovery rate to be controlled.
@@ -46,15 +46,15 @@
 #' library(limma)
 #' library(qvalue)
 #' nGenes <- 10000                          ## number of genes to test for DE
-#' meanCounts <- 5                          ## mean read counts in control group
+#' mu <- 10                                 ## mean read counts in control group
 #' dispersion <- 0.1                        ## mean dispersion across all genes
 #' group <- rep(c(1, 2), each = 13)         ## group assignments for simulations
 #' 
-#' check.power(nGenes, meanCounts, dispersion, group)
+#' check.power(nGenes, mu, dispersion, group)
 #'
 #' @export
 #' 
-check.power <- function(nGenes, meanCounts, dispersion, group, 
+check.power <- function(nGenes, mu, dispersion, group, 
                         fdr=0.05, pi0=0.8, logfc=1, sims=20) {
 
   ## empirical "power" & "fdr" function
@@ -72,7 +72,7 @@ check.power <- function(nGenes, meanCounts, dispersion, group,
   for (j in 1:sims){
     message("Performing simulation ", j, "/", sims, "...")
     sim <- sim.counts(arg=list(nGenes=nGenes, pi0=pi0, group=group), 
-                      mu=meanCounts, disp=dispersion, logfc=logfc)
+                      mu=mu, disp=dispersion, logfc=logfc)
     cts <- sim$counts
     lib.size <- colSums(cts)
     d <- DGEList(cts, lib.size, group=group)
