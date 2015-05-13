@@ -4,12 +4,12 @@
 \alias{ssizeRNA_single}
 \title{Sample Size Calculations for Two-Sample RNA-seq Experiments with Single Set of Parameters}
 \usage{
-ssizeRNA_single(nG = 10000, pi0 = 0.95, mu, disp, logfc, up = 0.5,
+ssizeRNA_single(nGenes = 10000, pi0 = 0.95, mu, disp, logfc, up = 0.5,
   replace = TRUE, m = 200, fdr = 0.05, power = 0.8, maxN = 35,
   side = "two-sided", cex.title = 1.15, cex.legend = 1)
 }
 \arguments{
-\item{nG}{total number of genes.}
+\item{nGenes}{total number of genes.}
 
 \item{pi0}{a vector (or scalar) of proportions of non-differentially expressed genes.}
 

@@ -7,7 +7,7 @@
 #' A plot of power versus sample size is generated.
 #' 
 #' @import Biobase ssize.fdr
-#' @param nG total number of genes.
+#' @param nGenes total number of genes.
 #' @param pi0 a vector (or scalar) of proportions of non-differentially expressed genes
 #' @param mu a vector (or scalar) of mean counts in control group from which to simulate.
 #' @param disp a vector (or scalar) of dispersion parameter from which to simulate.
@@ -47,8 +47,10 @@
 #' @examples
 #' library(edgeR)
 #' library(Biobase)
-#' load(url("http://bowtie-bio.sourceforge.net/recount/ExpressionSets/hammer_eset.RData"))
+#'
 #' ## load hammer dataset (Hammer, P. et al., 2010)
+#' data(hammer.eset)
+#'
 #' counts <- exprs(hammer.eset)[, phenoData(hammer.eset)$Time == "2 weeks"]
 #' counts <- counts[rowSums(counts) > 0,]
 #' trt <- factor(phenoData(hammer.eset)$protocol[phenoData(hammer.eset)$Time == "2 weeks"])
@@ -77,12 +79,12 @@
 #' 
 #' @export
 #' 
-ssizeRNA_vary <- function(nG = 10000, pi0 = 0.95, mu, disp, logfc, up = 0.5, replace = TRUE,
-                            m = 200, fdr = 0.05, power = 0.8, maxN = 35, 
-                            side = "two-sided", cex.title = 1.15, cex.legend = 1){ 
-  
-  arg = list(
-    nG = nG,  # total number of genes
+ssizeRNA_vary <- function(nGenes = 10000, pi0 = 0.95, mu, disp, logfc, 
+                          up = 0.5, replace = TRUE, m = 200, fdr = 0.05, 
+                          power = 0.8, maxN = 35, side = "two-sided", 
+                          cex.title = 1.15, cex.legend = 1) {  
+  arg <- list(
+    nGenes = nGenes,  # total number of genes
     pi0 = pi0,  # proportion of non-differentially expressed genes
     group = rep(c(1, 2), each = m)  # treatment groups
   )
@@ -92,22 +94,29 @@ ssizeRNA_vary <- function(nG = 10000, pi0 = 0.95, mu, disp, logfc, up = 0.5, rep
   d_cpm <- DGEList(sim$counts)
   d_cpm <- calcNormFactors(d_cpm)
   design <- model.matrix(~factor(arg$group))
-  y <- voom(d_cpm, design, plot = F)  # convert read counts to log2-cpm with associated weights
+  y <- voom(d_cpm, design, plot = F)  # convert counts to log2-cpm w/weights
   fit <- lmFit(y, design)
   fit <- eBayes(fit)
   fit$logcpm <- y$E  # normalized log-cpm value
   fit$weights <- y$weights  # precision weights for each observation 
-  fit$www <- sqrt(2/m * apply(y$weights[, 1:m], 1, sum) * apply(y$weights[, (m+1):(2*m)], 1, sum)
-                  / apply(y$weights, 1, sum))
-  fit$Delta <- fit$coef[, 2] * fit$www  # effect size defining as weighted mean difference of log-cpm values, Delta_g
-  
-  dm <- mean((fit$Delta * sim$de)[sim$de!=0])
-  ds <- sd((fit$Delta * sim$de)[sim$de!=0])
-  a <- fit$df.prior/2
-  b <- fit$df.prior * fit$s2.prior/2
+
+  from <- m + 1
+  to <- 2 * m 
+  fit$www <- sqrt(2 / m * apply(y$weights[, 1:m], 1, sum) * 
+                  apply(y$weights[, from:to], 1, sum) / 
+                  apply(y$weights, 1, sum))
+  fit$Delta <- fit$coef[, 2] * fit$www  # effect == weighted mean diff(logcpm)
+ 
+   
+  dm <- mean( (fit$Delta * sim$de)[sim$de != 0] )
+  ds <- sd( (fit$Delta * sim$de)[sim$de != 0] )
+  a <- fit$df.prior / 2
+  b <- fit$df.prior * fit$s2.prior / 2
   sig <- density(fit$sigma)$x[which.max(density(fit$sigma)$y)]
   
-  ret <- ssize.twoSampVary(deltaMean = dm, deltaSE = ds, a = a, b = b, fdr = fdr, power = power, pi0 = pi0, 
-                                maxN = maxN, side = side, cex.title = cex.title, cex.legend = cex.legend)
+  ret <- ssize.twoSampVary(deltaMean = dm, deltaSE = ds, a = a, b = b, 
+                           fdr = fdr, power = power, pi0 = pi0, 
+                           maxN = maxN, side = side, cex.title = cex.title, 
+                           cex.legend = cex.legend)
   return(ret)
 }
