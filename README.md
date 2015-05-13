@@ -6,8 +6,6 @@ Sample size calculation for RNAseq data using limma/voom modeling assumptions
 ```R
 library(edgeR)
 library(Biobase)
-
-## load hammer dataset (Hammer, P. et al., 2010)
 data(hammer.eset)
 trt <- hammer.eset$protocol[ which(hammer.eset$Time == "2 weeks") ] 
 counts <- exprs(hammer.eset)[, which(hammer.eset$Time == "2 weeks")]
