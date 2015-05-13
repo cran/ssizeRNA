@@ -28,4 +28,4 @@ size <- ssizeRNA_vary(pi0=0.8, mu=mu, disp=disp, logfc=1, m=30, maxN=15, replace
 ```
 
 # results
-(add screencap here)
+![sample size plot](demo/ssizeRNA_vary.png "Plot generated from example code")
