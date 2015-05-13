@@ -1,7 +1,10 @@
 # ssizeRNA
 Sample Size Calculation for RNA-Seq Data using the limma/voom modeling assumptions
 
-# example
+# a power/size plot
+![sample size plot](demo/ssizeRNA_vary.png "Plot generated from example code")
+
+# code to generate the above plot
 ```R
 library(edgeR)
 library(Biobase)
@@ -26,4 +29,3 @@ disp <- d$tagwise.dispersion             ## dispersion for each gene
 
 size <- ssizeRNA_vary(pi0=0.8, mu=mu, disp=disp, logfc=1, m=30, maxN=15, replace=F)
 ```
-![sample size plot](demo/ssizeRNA_vary.png "Plot generated from example code")
