@@ -1,5 +1,6 @@
 \name{hammer.eset}
 \alias{hammer.eset}
+\alias{hammer_eset}
 \docType{data}
 \title{
   RNAseq data from Hammer et al., Genome Research 2010
@@ -9,7 +10,8 @@
 }
 \usage{data(hammer.eset)}
 \examples{
+library(Biobase)
 data(hammer.eset)
-phenoData(hammer.eset)
+pData(hammer.eset)
 }
 \keyword{datasets}
