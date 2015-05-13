@@ -1,5 +1,5 @@
 # ssizeRNA
-Sample Size Calculation for RNA-Seq Data using the limma/voom modeling assumptions
+Sample size calculation for RNAseq data using limma/voom modeling assumptions
 
 ![sample size plot](demo/ssizeRNA_vary.png "Plot generated from example code")
 
