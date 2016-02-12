@@ -1,0 +1,14 @@
+CHANGES IN VERSION 1.2.4
+------------------------
+
+    o Polished functions 
+    o Added package vignettes 
+    o Added data file "hammer.eset.RData"
+
+
+CHANGES IN VERSION 1.1.2
+------------------------
+
+FIRST VERSION
+
+    o Proposed a sample size calculation method for RNA-seq experiments

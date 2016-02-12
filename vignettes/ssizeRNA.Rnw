@@ -1,0 +1,227 @@
+%\VignetteIndexEntry{Sample Size Calculation for RNA-Seq Experimental Design}
+%\VignettePackage{ssizeRNA}
+%\VignetteEngine{knitr::knitr}
+
+% To compile this document
+% library('knitr'); rm(list=ls()); knit('ssizeRNA.Rnw')
+
+\documentclass[12pt]{article}
+
+<<knitr, echo=FALSE, results="hide">>=
+library("knitr")
+opts_chunk$set(
+  message=FALSE)
+@ 
+
+<<style-knitr, eval=TRUE, echo=FALSE, results="asis">>=
+    BiocStyle::latex()
+@
+
+<<loadpackage, echo=FALSE>>=
+library(Biobase)
+library(edgeR)
+@
+
+\renewcommand{\baselinestretch}{1.2}
+
+
+\author{Ran Bi, Peng Liu \\[1em] 
+  \small{Department of Statistics, Iowa State Univeresity} }
+
+\title{Sample Size Calculation for RNA-Seq Experimental Design \\
+       -- the ssizeRNA package}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Sample size calculation is a crucial issue when designing an RNA-seq experiment.
+This vignette explains the use of the package ssizeRNA, which is designed to
+provide an estimation of sample size while controlling false discovery rate 
+(FDR) for RNA-seq experimental design. 
+
+\vspace{1em}
+
+\textbf{ssizeRNA version:} \Sexpr{packageVersion("ssizeRNA")}
+\end{abstract}
+
+\tableofcontents
+
+\newpage
+
+\section{Introduction}
+
+RNA-seq technologies have been popularly applied in transcriptomic studies. 
+In the statistical analysis of RNA-seq data, identifying differentially 
+expressed (DE) genes across treatments or conditions is a major step or
+main focus. Many statistical methods have been proposed for the detection 
+of DE genes with RNA-seq data, such as \emph{edgeR} 
+\cite{Robinson-McCarthy-Smyth2010}, \emph{DESeq} \cite{Anders-Huber2010}, 
+\emph{DESeq2} \cite{Love-Anders-Huber2014} and 
+\emph{QuasiSeq} \cite{Lund-Nettleton-McCarthy2012}. 
+
+Due to the genetic complexity, RNA-seq experiments are rather costly. Many 
+experiments only employ a small number of replicates, which may lead to 
+unreliable statistical inference. Thus, one of the principal questions in 
+designing an RNA-seq experiment is: how large of the sample size do we need?
+
+Many of the current sample size calculation methods are simulation based, which
+are quite time-consuming. We propose a much less computationally intensive 
+method and R package \emph{ssizeRNA} for sample size calculation in designing 
+RNA-seq experiments \cite{Bi-Liu2016}.
+
+
+\section{Using {\tt ssizeRNA}}
+
+We first load the \emph{ssizeRNA} package.
+<<>>=
+library(ssizeRNA)
+@
+
+To determine the sample size for an RNA-seq experiment, 
+users need to specify the following parameters:
+\begin{itemize}
+\item $G$: total number of genes for testing; 
+\item $pi0$: proportion of non-DE genes; 
+\item $fdr$: FDR level to control; 
+\item $power$: desired average power to achieve; 
+\item $mu$: average read count for each gene in control group 
+(without loss of generality, we assume that the normalization 
+factors are equal to 1 for all samples);
+\item $disp$: dispersion parameter for each gene; 
+\item $logfc$: log fold change for each gene. 
+\end{itemize}
+We will give several examples of using \emph{ssizeRNA} sample size 
+estimation as follows.
+
+\subsection{Sample size calculation for a single set of parameter}
+
+Here we consider the situation of single set of parameter, i.e. all genes 
+share the same set of average read count in control group, dispersion parameter,
+and log fold change.
+
+For example, if we are estimating the sample size for an RNA-seq experiment with
+\begin{itemize}
+\item Total number of genes: $G = 10000$;
+\item Proportion of non-DE genes: $pi0 = 0.8$; 
+\item FDR level to control: $fdr = 0.05$; 
+\item Desired average power to achieve: $power = 0.8$; 
+\item Average read count for each gene in control group: $mu = 10$;
+\item Dispersion parameter for each gene: $disp = 0.1$;
+\item Log fold change for each gene: $logfc = log(2)$. 
+\end{itemize}
+
+The estimated sample size is 14 with anticipated power 0.84 by 
+\emph{ssizeRNA\_single} function. The function also gives the power vs. 
+sample size curve estimated by our method.
+<<sim1_size, fig.height=4.5, fig.width=6>>=
+set.seed(2016)
+size1 <- ssizeRNA_single(nGenes = 10000, pi0 = 0.8, m = 200, mu = 10, 
+                         disp = 0.1, logfc = log(2), fdr = 0.05, 
+                         power = 0.8, maxN = 20)
+size1$ssize
+@
+
+To check whether desired power would be achieved at the calculated sample 
+size 14 for voom and limma pipeline \cite{Law-Chen-Shi2014, Smyth2004}, 
+we could use the \emph{check.power} function, which gives the observed 
+power and true FDR by Benjamini and Hochberg's method 
+\cite{Benjamini-Hochberg1995} and Storey's q-value procedure 
+\cite {Storey-Taylor-Siegmund2004} respectively. The results below are 
+based on 10 simulations, indicating that desired power is achieved 
+and FDR is controlled successfully.
+<<sim1_power>>=
+check.power(m = 14, mu = 10, disp = 0.1, logfc = log(2), sims = 10)
+@
+
+\subsection{Sample size calculation for gene-specific mean and dispersion
+with fixed log fold change}
+
+Now we will give an example of sample size calculation for gene-specific mean 
+and dispersion. Here we use the real RNA-seq dataset from Hammer, P. et al.,
+2010 \cite{Hammer-Banck-Amberg2010} to generate gene-specific mean and 
+dispersion parameters. 
+<<sim2_para>>=
+data(hammer.eset)
+counts <- exprs(hammer.eset)[, phenoData(hammer.eset)$Time == "2 weeks"]
+counts <- counts[rowSums(counts) > 0,]  ## filter zero count genes
+trt <- hammer.eset$protocol[which(hammer.eset$Time == "2 weeks")] 
+
+## average read count in control group for each gene
+mu <- apply(counts[, trt == "control"], 1, mean)
+
+## dispersion for each gene
+d <- DGEList(counts)
+d <- calcNormFactors(d)
+d <- estimateCommonDisp(d)
+d <- estimateTagwiseDisp(d)
+disp <- d$tagwise.dispersion
+@
+
+If we would like to estimate the sample size for the above RNA-seq experiment 
+with
+\begin{itemize}
+\item Total number of genes: $G = 10000$;
+\item Proportion of non-DE genes: $pi0 = 0.8$; 
+\item FDR level to control: $fdr = 0.05$; 
+\item Desired average power to achieve: $power = 0.8$; 
+\item Log fold change for each gene: $logfc = log(2)$. 
+\end{itemize}
+
+The estimated sample size is 8 with anticipated power 0.81 by 
+\emph{ssizeRNA\_vary} function. The function also gives the power vs. 
+sample size curve estimated by our method.
+<<sim2_size, fig.height=4.5, fig.width=6>>=
+set.seed(2016)
+size2 <- ssizeRNA_vary(nGenes = 10000, pi0 = 0.8, m = 200, mu = mu, 
+                       disp = disp, logfc = log(2), fdr = 0.05, 
+                       power = 0.8, maxN = 15, replace = FALSE)
+size2$ssize
+@
+
+The observed power and true FDR by Benjamini and Hochberg's method and 
+Storey's q-value procedure could also be checked by the \emph{check.power} 
+function.
+
+\subsection{Sample size calculation for gene-specific mean and dispersion
+with different log fold change}
+
+If not all genes share the same log fold change, for example, if log fold 
+change comes from a normal distribution, 
+$$logfc \sim Normal(log(2), 0.5*log(2))$$
+other parameters remain the same as in subsection 2.2, then the estimated 
+sample size is 14 with anticipated power 0.80 by \emph{ssizeRNA\_vary} 
+function.
+<<sim3_size, fig.height=4.5, fig.width=6>>=
+set.seed(2016)
+logfc <- function(x){rnorm(x, log(2), 0.5*log(2))}
+size3 <- ssizeRNA_vary(nGenes = 10000, pi0 = 0.8, m = 200, mu = mu, 
+                       disp = disp, logfc = logfc, fdr = 0.05, 
+                       power = 0.8, maxN = 20, replace = FALSE)
+size3$ssize
+@
+
+By the following command, we verified that the desired power 0.8 is achieved
+at the calculated sample size 14 for voom and limma pipeline. 
+<<sim3_power>>=
+check.power(m = 14, mu = mu, disp = disp, logfc = logfc, sims = 10, 
+            replace = FALSE)
+@
+
+
+\section{Conclusion}
+
+\emph{ssizeRNA} provides a quick calculation for sample size, and an accurate 
+estimate of power. Examples in section 2 demonstrate that our proposed method
+offers a reliable approach for sample size calculation for RNA-seq experiments.
+
+
+\section{Session Info}
+<<echo=TRUE, result=TRUE>>=
+sessionInfo()
+@
+
+\bibliography{ssizeRNA_ref}
+
+\end{document}
