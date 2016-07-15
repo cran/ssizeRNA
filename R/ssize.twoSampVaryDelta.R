@@ -9,8 +9,7 @@
 #' vary among genes. 
 #' A plot of power versus sample size is generated.
 #' 
-#' @importFrom stats pt optimize 
-#' @importFrom graphics plot lines points abline title mtext legend
+#' @import stats graphics
 #' 
 #' @param deltaMean location (mean) parameter of normal distribution 
 #'                  followed by each \emph{delta.g}.

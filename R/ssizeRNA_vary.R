@@ -9,8 +9,7 @@
 #' mean counts in control group, dispersion, and log fold change. 
 #' A plot of power versus sample size is generated.
 #' 
-#' @import Biobase ssize.fdr
-#' @importFrom stats model.matrix sd density
+#' @import Biobase ssize.fdr stats
 #' 
 #' @param nGenes total number of genes, the default value is \code{10000}.
 #' @param pi0 proportion of non-differentially expressed genes, 

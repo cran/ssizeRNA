@@ -8,8 +8,7 @@
 #' number of iterations, FDR level to control, mean counts in control group, 
 #' dispersion, and log fold change.
 #' 
-#' @import qvalue
-#' @importFrom stats model.matrix p.adjust
+#' @import qvalue stats
 #'
 #' @param nGenes total number of genes, the default value is \code{10000}.
 #' @param pi0 proportion of non-differentially expressed genes, 

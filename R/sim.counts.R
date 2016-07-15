@@ -6,6 +6,7 @@
 #' A count data matrix is generated.
 #' 
 #' @import MASS
+#' 
 #' @param nGenes total number of genes, the default value is \code{10000}.
 #' @param pi0 proportion of non-differentially expressed genes, 
 #'            the default value is \code{0.8}.

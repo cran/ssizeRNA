@@ -29,7 +29,7 @@ library(edgeR)
   \small{Department of Statistics, Iowa State Univeresity} }
 
 \title{Sample Size Calculation for RNA-Seq Experimental Design \\
-       -- the ssizeRNA package}
+       -- the \emph{ssizeRNA} package}
 
 \begin{document}
 
@@ -37,15 +37,33 @@ library(edgeR)
 
 \begin{abstract}
 Sample size calculation is a crucial issue when designing an RNA-seq experiment.
-This vignette explains the use of the package ssizeRNA, which is designed to
+This vignette explains the use of the package \emph{ssizeRNA}, which is designed to
 provide an estimation of sample size while controlling false discovery rate 
 (FDR) for RNA-seq experimental design. 
 
 \vspace{1em}
 
-\textbf{ssizeRNA version:} \Sexpr{packageVersion("ssizeRNA")}
+\textbf{\emph{ssizeRNA} version:} \Sexpr{packageVersion("ssizeRNA")}
+
+\vspace{1em}
+  
+  \begin{center}
+    \begin{tabular}{ | l | }
+      \hline 
+      If you use \emph{ssizeRNA} in published research, please cite:  \\
+      \\
+      R. Bi and P. Liu: \textbf{Sample size calculation while controlling} \\
+      \textbf{false discovery rate for differential expression analysis} \\
+      \textbf{with RNA-sequencing experiments}. \\
+      \emph{BMC Bioinformatics} 2016, \textbf{17}:146. \\
+      \url{http://dx.doi.org/10.1186/s12859-016-0994-9} \\
+      \hline 
+    \end{tabular}
+  \end{center}
+  
 \end{abstract}
 
+\clearpage
 \tableofcontents
 
 \newpage
