@@ -5,7 +5,7 @@
 \title{Sample Size Calculations for Two-Sample RNA-seq Experiments with 
 Differing Mean and Dispersion Among Genes}
 \usage{
-ssizeRNA_vary(nGenes = 10000, pi0 = 0.8, m = 200, mu, disp, logfc,
+ssizeRNA_vary(nGenes = 10000, pi0 = 0.8, m = 200, mu, disp, fc,
   up = 0.5, replace = TRUE, fdr = 0.05, power = 0.8, maxN = 35,
   side = "two-sided", cex.title = 1.15, cex.legend = 1)
 }
@@ -23,9 +23,9 @@ from which to simulate.}
 \item{disp}{a vector (or scalar) of dispersion parameter 
 from which to simulate.}
 
-\item{logfc}{a vector (or scalar, or a function that takes an integer n 
+\item{fc}{a vector (or scalar, or a function that takes an integer n 
           and generates a vector of length n)
-of log fold change for differentially expressed (DE) genes.}
+of fold change for differentially expressed (DE) genes.}
 
 \item{up}{proportion of up-regulated genes among all DE genes, 
 the default value is \code{0.5}.}
@@ -60,7 +60,7 @@ RNA-seq experiments for a desired power in which mean and
 dispersion vary among genes. 
 Sample size calculations are performed at controlled false discovery rates, 
 user-specified proportions of non-differentially expressed genes, 
-mean counts in control group, dispersion, and log fold change. 
+mean counts in control group, dispersion, and fold change. 
 A plot of power versus sample size is generated.
 }
 \details{
@@ -90,18 +90,18 @@ d <- estimateTagwiseDisp(d)
 disp <- d$tagwise.dispersion      
 ## dispersion for each gene
 
-## fixed log fold change
-logfc <- log(2)
-size <- ssizeRNA_vary(mu = mu, disp = disp, logfc = logfc, 
+## fixed fold change
+fc <- 2
+size <- ssizeRNA_vary(mu = mu, disp = disp, fc = fc, 
                       m = 30, maxN = 15, replace = FALSE)
 size$ssize         ## first sample size to reach desired power
 size$power         ## calculated power for each sample size
 size$crit.vals     ## calculated critical value for each sample size
 
 
-## varying log fold change
-## logfc1 <- function(x){rnorm(x, log(2), 0.5*log(2))}
-## size1 <- ssizeRNA_vary(pi0 = 0.8, mu = mu, disp = disp, logfc = logfc1, 
+## varying fold change
+## fc1 <- function(x){exp(rnorm(x, log(2), 0.5*log(2)))}
+## size1 <- ssizeRNA_vary(pi0 = 0.8, mu = mu, disp = disp, fc = fc1, 
 ##                        m = 30, maxN = 20, replace = FALSE)
 
 }

@@ -2,7 +2,7 @@
 #' 
 #' This function simulates count data from Negative-Binomial distribution
 #' for two-sample RNA-seq experiments with given mean, dispersion 
-#' and log fold change. 
+#' and fold change. 
 #' A count data matrix is generated.
 #' 
 #' @import MASS
@@ -15,9 +15,9 @@
 #'           from which to simulate.
 #' @param disp a vector (or scalar) of dispersion parameter 
 #'             from which to simulate.
-#' @param logfc a vector (or scalar, or a function that takes an integer n 
-#'                        and generates a vector of length n)
-#'              of log fold change for differentially expressed (DE) genes.  
+#' @param fc a vector (or scalar, or a function that takes an integer n 
+#'                     and generates a vector of length n)
+#'           of fold change for differentially expressed (DE) genes.  
 #' @param up proportion of up-regulated genes among all DE genes, 
 #'           the default value is \code{0.5}.
 #' @param replace sample with or without replacement from given parameters. 
@@ -35,7 +35,7 @@
 #'                   \code{0} for non-differentially expressed genes, 
 #'                   \code{1} for up-regulated genes, 
 #'                   \code{-1} for down-regulated genes.}
-#' @return \item{delta}{log fold change for each gene between 
+#' @return \item{delta}{log2 fold change for each gene between 
 #'                      treatment group and control group.}
 #' 
 #' @author Ran Bi \email{biran@@iastate.edu}, 
@@ -45,19 +45,19 @@
 #' m <- 3                    ## sample size per treatment group
 #' mu <- 10                  ## mean counts in control group for all genes 
 #' disp <- 0.1               ## dispersion for all genes
-#' logfc <- log(2)           ## log fold change for DE genes
+#' fc <- 2                   ## 2-fold change for DE genes
 #' 
-#' sim <- sim.counts(m = m, mu = mu, disp = disp, logfc = logfc)
+#' sim <- sim.counts(m = m, mu = mu, disp = disp, fc = fc)
 #' sim$counts                ## count data matrix
 #' 
 #' 
 #' ## varying fold change
-#' logfc1 <- function(x){rnorm(x, log(2), 0.5*log(2))}
-#' sim1 <- sim.counts(m = m, mu = mu, disp = disp, logfc = logfc1)
+#' fc1 <- function(x){exp(rnorm(x, log(2), 0.5*log(2)))}
+#' sim1 <- sim.counts(m = m, mu = mu, disp = disp, fc = fc1)
 #' 
 #' @export
 #' 
-sim.counts <- function(nGenes = 10000, pi0 = 0.8, m, mu, disp, logfc, 
+sim.counts <- function(nGenes = 10000, pi0 = 0.8, m, mu, disp, fc, 
                        up = 0.5, replace = TRUE){
   arg <- list(nGenes = nGenes,
               pi0 = pi0,
@@ -80,10 +80,10 @@ sim.counts <- function(nGenes = 10000, pi0 = 0.8, m, mu, disp, logfc,
   
   ## log fold change, approximately half positive, half negative
   delta <- rep(0, nGenes)
-  if (is.function(logfc)){
-    lfc <- logfc(TP)
+  if (is.function(fc)){
+    lfc <- log(fc(TP))
   }else{
-    lfc <- logfc
+    lfc <- log(fc)
   }
   delta[de != 0] <- lfc * de[de != 0]
   
@@ -119,11 +119,13 @@ sim.counts <- function(nGenes = 10000, pi0 = 0.8, m, mu, disp, logfc,
   if(any(rowSums(cpm(counts) > 2) < 3 ))
     print("Error: Failed to simulate data: some genes are not expressed.")
   
+  delta <- delta / log(2)
+  
   list(counts = counts, 
        group = arg$group, 
        lambda0 = lambda[, 1],   # mean counts in control group
        phi0 = phi[, 1],   # dispersion
        de = de,   # DE indicator
-       delta = delta  # log fold change
+       delta = delta  # log2 fold change
   )
 }

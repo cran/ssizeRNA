@@ -1,3 +1,9 @@
+CHANGES IN VERSION 1.2.8
+------------------------
+
+    o Changed input logfc to fc
+
+
 CHANGES IN VERSION 1.2.6
 ------------------------
 

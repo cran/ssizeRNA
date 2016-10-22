@@ -16,12 +16,12 @@ library(ssizeRNA)
 ## ----sim1_size, fig.height=4.5, fig.width=6---------------------------------------------
 set.seed(2016)
 size1 <- ssizeRNA_single(nGenes = 10000, pi0 = 0.8, m = 200, mu = 10, 
-                         disp = 0.1, logfc = log(2), fdr = 0.05, 
+                         disp = 0.1, fc = 2, fdr = 0.05, 
                          power = 0.8, maxN = 20)
 size1$ssize
 
 ## ----sim1_power-------------------------------------------------------------------------
-check.power(m = 14, mu = 10, disp = 0.1, logfc = log(2), sims = 10)
+check.power(m = 14, mu = 10, disp = 0.1, fc = 2, sims = 10)
 
 ## ----sim2_para--------------------------------------------------------------------------
 data(hammer.eset)
@@ -42,20 +42,20 @@ disp <- d$tagwise.dispersion
 ## ----sim2_size, fig.height=4.5, fig.width=6---------------------------------------------
 set.seed(2016)
 size2 <- ssizeRNA_vary(nGenes = 10000, pi0 = 0.8, m = 200, mu = mu, 
-                       disp = disp, logfc = log(2), fdr = 0.05, 
+                       disp = disp, fc = 2, fdr = 0.05, 
                        power = 0.8, maxN = 15, replace = FALSE)
 size2$ssize
 
 ## ----sim3_size, fig.height=4.5, fig.width=6---------------------------------------------
 set.seed(2016)
-logfc <- function(x){rnorm(x, log(2), 0.5*log(2))}
+fc <- function(x){exp(rnorm(x, log(2), 0.5*log(2)))}
 size3 <- ssizeRNA_vary(nGenes = 10000, pi0 = 0.8, m = 200, mu = mu, 
-                       disp = disp, logfc = logfc, fdr = 0.05, 
+                       disp = disp, fc = fc, fdr = 0.05, 
                        power = 0.8, maxN = 20, replace = FALSE)
 size3$ssize
 
 ## ----sim3_power-------------------------------------------------------------------------
-check.power(m = 14, mu = mu, disp = disp, logfc = logfc, sims = 10, 
+check.power(m = 14, mu = mu, disp = disp, fc = fc, sims = 10, 
             replace = FALSE)
 
 ## ----echo=TRUE, result=TRUE-------------------------------------------------------------

@@ -4,7 +4,7 @@
 \alias{sim.counts}
 \title{RNA-seq Count Data Simulation from Negative-Binomial Distribution}
 \usage{
-sim.counts(nGenes = 10000, pi0 = 0.8, m, mu, disp, logfc, up = 0.5,
+sim.counts(nGenes = 10000, pi0 = 0.8, m, mu, disp, fc, up = 0.5,
   replace = TRUE)
 }
 \arguments{
@@ -21,9 +21,9 @@ from which to simulate.}
 \item{disp}{a vector (or scalar) of dispersion parameter 
 from which to simulate.}
 
-\item{logfc}{a vector (or scalar, or a function that takes an integer n 
+\item{fc}{a vector (or scalar, or a function that takes an integer n 
           and generates a vector of length n)
-of log fold change for differentially expressed (DE) genes.}
+of fold change for differentially expressed (DE) genes.}
 
 \item{up}{proportion of up-regulated genes among all DE genes, 
 the default value is \code{0.5}.}
@@ -45,13 +45,13 @@ See Details for more information.}
                   \code{1} for up-regulated genes, 
                   \code{-1} for down-regulated genes.}
 
-\item{delta}{log fold change for each gene between 
+\item{delta}{log2 fold change for each gene between 
                      treatment group and control group.}
 }
 \description{
 This function simulates count data from Negative-Binomial distribution
 for two-sample RNA-seq experiments with given mean, dispersion 
-and log fold change. 
+and fold change. 
 A count data matrix is generated.
 }
 \details{
@@ -63,15 +63,15 @@ If the total number of genes \code{nGenes} is larger
 m <- 3                    ## sample size per treatment group
 mu <- 10                  ## mean counts in control group for all genes 
 disp <- 0.1               ## dispersion for all genes
-logfc <- log(2)           ## log fold change for DE genes
+fc <- 2                   ## 2-fold change for DE genes
 
-sim <- sim.counts(m = m, mu = mu, disp = disp, logfc = logfc)
+sim <- sim.counts(m = m, mu = mu, disp = disp, fc = fc)
 sim$counts                ## count data matrix
 
 
 ## varying fold change
-logfc1 <- function(x){rnorm(x, log(2), 0.5*log(2))}
-sim1 <- sim.counts(m = m, mu = mu, disp = disp, logfc = logfc1)
+fc1 <- function(x){exp(rnorm(x, log(2), 0.5*log(2)))}
+sim1 <- sim.counts(m = m, mu = mu, disp = disp, fc = fc1)
 
 }
 \author{

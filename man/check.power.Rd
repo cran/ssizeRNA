@@ -4,7 +4,7 @@
 \alias{check.power}
 \title{Average Power and True FDR Based on limma/voom RNAseq Analysis Pipeline}
 \usage{
-check.power(nGenes = 10000, pi0 = 0.8, m, mu, disp, logfc, up = 0.5,
+check.power(nGenes = 10000, pi0 = 0.8, m, mu, disp, fc, up = 0.5,
   replace = TRUE, fdr = 0.05, sims = 100)
 }
 \arguments{
@@ -21,9 +21,9 @@ from which to simulate.}
 \item{disp}{a vector (or scalar) of dispersion parameter 
 from which to simulate.}
 
-\item{logfc}{a vector (or scalar, or a function that takes an integer n 
+\item{fc}{a vector (or scalar, or a function that takes an integer n 
           and generates a vector of length n)
-of log fold change for differentially expressed (DE) genes.}
+of fold change for differentially expressed (DE) genes.}
 
 \item{up}{proportion of up-regulated genes among all DE genes, 
 the default value is \code{0.5}.}
@@ -55,7 +55,7 @@ and/or Storey and Tibshirani's q-value procedure (Storey et al, 2004),
 \code{check.power} calculates average power and true FDR for given sample 
 size, user-specified proportions of non-differentially expressed genes, 
 number of iterations, FDR level to control, mean counts in control group, 
-dispersion, and log fold change.
+dispersion, and fold change.
 }
 \examples{
 library(limma)
@@ -63,9 +63,9 @@ library(qvalue)
 m <- 14                      ## sample size per treatment group
 mu <- 10                     ## mean read counts in control group
 disp <- 0.1                  ## dispersion for all genes
-logfc <- log(2)              ## log fold change for DE genes
+fc <- 2                      ## 2-fold change for DE genes
 
-check.power(m = m, mu = mu, disp = disp, logfc = logfc, sims = 2)
+check.power(m = m, mu = mu, disp = disp, fc = fc, sims = 2)
 
 }
 \author{

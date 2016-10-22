@@ -6,7 +6,7 @@
 #' \code{check.power} calculates average power and true FDR for given sample 
 #' size, user-specified proportions of non-differentially expressed genes, 
 #' number of iterations, FDR level to control, mean counts in control group, 
-#' dispersion, and log fold change.
+#' dispersion, and fold change.
 #' 
 #' @import qvalue stats
 #'
@@ -18,9 +18,9 @@
 #'           from which to simulate.
 #' @param disp a vector (or scalar) of dispersion parameter 
 #'             from which to simulate.
-#' @param logfc a vector (or scalar, or a function that takes an integer n 
-#'                        and generates a vector of length n)
-#'              of log fold change for differentially expressed (DE) genes.  
+#' @param fc a vector (or scalar, or a function that takes an integer n 
+#'                     and generates a vector of length n)
+#'           of fold change for differentially expressed (DE) genes.  
 #' @param up proportion of up-regulated genes among all DE genes, 
 #'           the default value is \code{0.5}.
 #' @param replace sample with or without replacement from given parameters. 
@@ -56,15 +56,15 @@
 #' m <- 14                      ## sample size per treatment group
 #' mu <- 10                     ## mean read counts in control group
 #' disp <- 0.1                  ## dispersion for all genes
-#' logfc <- log(2)              ## log fold change for DE genes
+#' fc <- 2                      ## 2-fold change for DE genes
 #' 
-#' check.power(m = m, mu = mu, disp = disp, logfc = logfc, sims = 2)
+#' check.power(m = m, mu = mu, disp = disp, fc = fc, sims = 2)
 #'
 #' @export
 #' 
-check.power <- function(nGenes = 10000, pi0 = 0.8, m, mu, disp, logfc, 
+check.power <- function(nGenes = 10000, pi0 = 0.8, m, mu, disp, fc, 
                         up = 0.5, replace = TRUE, fdr = 0.05, sims = 100) {
-  
+
   ## empirical "power" & "fdr" function
   powerfdr.fun <- function(fdr, p){
     V <- sum( (p < fdr) & (sim$de == FALSE))
@@ -79,7 +79,7 @@ check.power <- function(nGenes = 10000, pi0 = 0.8, m, mu, disp, logfc,
   pow_bh <- fdr_bh <- pow_qvalue <- fdr_qvalue <- rep(0, sims)
   for (j in 1:sims){
     # message("Performing simulation ", j, "/", sims, "...")
-    sim <- sim.counts(nGenes, pi0, m, mu, disp, logfc, up, replace)
+    sim <- sim.counts(nGenes, pi0, m, mu, disp, fc, up, replace)
     cts <- sim$counts
     lib.size <- colSums(cts)
     group = rep(c(1, 2), each = m)

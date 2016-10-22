@@ -5,7 +5,7 @@
 \title{Sample Size Calculations for Two-Sample RNA-seq Experiments 
 with Single Set of Parameters}
 \usage{
-ssizeRNA_single(nGenes = 10000, pi0 = 0.8, m = 200, mu, disp, logfc,
+ssizeRNA_single(nGenes = 10000, pi0 = 0.8, m = 200, mu, disp, fc,
   up = 0.5, replace = TRUE, fdr = 0.05, power = 0.8, maxN = 35,
   side = "two-sided", cex.title = 1.15, cex.legend = 1)
 }
@@ -23,9 +23,9 @@ from which to simulate.}
 \item{disp}{a vector (or scalar) of dispersion parameter 
 from which to simulate.}
 
-\item{logfc}{a vector (or scalar, or a function that takes an integer n 
+\item{fc}{a vector (or scalar, or a function that takes an integer n 
           and generates a vector of length n)
-of log fold change for differentially expressed (DE) genes.}
+of fold change for differentially expressed (DE) genes.}
 
 \item{up}{proportion of up-regulated genes among all DE genes, 
 the default value is \code{0.5}.}
@@ -60,7 +60,7 @@ RNA-seq experiments for a desired power in which mean and
 dispersion parameters are identical for all genes. 
 Sample size calculations are performed at controlled false discovery rates, 
 user-specified proportions of non-differentially expressed genes, 
-mean counts in control group, dispersion, and log fold change. 
+mean counts in control group, dispersion, and fold change. 
 A plot of power versus sample size is generated.
 }
 \details{
@@ -73,9 +73,9 @@ If the total number of genes is larger than length of \code{mu} or
 \examples{
 mu <- 10                ## mean counts in control group for all genes
 disp <- 0.1             ## dispersion for all genes
-logfc <- log(2)         ## log fold change for DE genes
+fc <- 2                 ## 2-fold change for DE genes
 
-size <- ssizeRNA_single(m = 30, mu = mu, disp = disp, logfc = logfc, 
+size <- ssizeRNA_single(m = 30, mu = mu, disp = disp, fc = fc, 
                         maxN = 20)
 size$ssize              ## first sample size to reach desired power
 size$power              ## calculated power for each sample size

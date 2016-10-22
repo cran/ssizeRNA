@@ -108,7 +108,7 @@ users need to specify the following parameters:
 (without loss of generality, we assume that the normalization 
 factors are equal to 1 for all samples);
 \item $disp$: dispersion parameter for each gene; 
-\item $logfc$: log fold change for each gene. 
+\item $fc$: fold change for each gene. 
 \end{itemize}
 We will give several examples of using \emph{ssizeRNA} sample size 
 estimation as follows.
@@ -117,7 +117,7 @@ estimation as follows.
 
 Here we consider the situation of single set of parameter, i.e. all genes 
 share the same set of average read count in control group, dispersion parameter,
-and log fold change.
+and fold change.
 
 For example, if we are estimating the sample size for an RNA-seq experiment with
 \begin{itemize}
@@ -127,7 +127,7 @@ For example, if we are estimating the sample size for an RNA-seq experiment with
 \item Desired average power to achieve: $power = 0.8$; 
 \item Average read count for each gene in control group: $mu = 10$;
 \item Dispersion parameter for each gene: $disp = 0.1$;
-\item Log fold change for each gene: $logfc = log(2)$. 
+\item Fold change for each gene: $fc = 2$. 
 \end{itemize}
 
 The estimated sample size is 14 with anticipated power 0.84 by 
@@ -136,7 +136,7 @@ sample size curve estimated by our method.
 <<sim1_size, fig.height=4.5, fig.width=6>>=
 set.seed(2016)
 size1 <- ssizeRNA_single(nGenes = 10000, pi0 = 0.8, m = 200, mu = 10, 
-                         disp = 0.1, logfc = log(2), fdr = 0.05, 
+                         disp = 0.1, fc = 2, fdr = 0.05, 
                          power = 0.8, maxN = 20)
 size1$ssize
 @
@@ -150,11 +150,11 @@ power and true FDR by Benjamini and Hochberg's method
 based on 10 simulations, indicating that desired power is achieved 
 and FDR is controlled successfully.
 <<sim1_power>>=
-check.power(m = 14, mu = 10, disp = 0.1, logfc = log(2), sims = 10)
+check.power(m = 14, mu = 10, disp = 0.1, fc = 2, sims = 10)
 @
 
 \subsection{Sample size calculation for gene-specific mean and dispersion
-with fixed log fold change}
+with fixed fold change}
 
 Now we will give an example of sample size calculation for gene-specific mean 
 and dispersion. Here we use the real RNA-seq dataset from Hammer, P. et al.,
@@ -184,7 +184,7 @@ with
 \item Proportion of non-DE genes: $pi0 = 0.8$; 
 \item FDR level to control: $fdr = 0.05$; 
 \item Desired average power to achieve: $power = 0.8$; 
-\item Log fold change for each gene: $logfc = log(2)$. 
+\item Fold change for each gene: $fc = 2$. 
 \end{itemize}
 
 The estimated sample size is 8 with anticipated power 0.81 by 
@@ -193,7 +193,7 @@ sample size curve estimated by our method.
 <<sim2_size, fig.height=4.5, fig.width=6>>=
 set.seed(2016)
 size2 <- ssizeRNA_vary(nGenes = 10000, pi0 = 0.8, m = 200, mu = mu, 
-                       disp = disp, logfc = log(2), fdr = 0.05, 
+                       disp = disp, fc = 2, fdr = 0.05, 
                        power = 0.8, maxN = 15, replace = FALSE)
 size2$ssize
 @
@@ -203,19 +203,19 @@ Storey's q-value procedure could also be checked by the \emph{check.power}
 function.
 
 \subsection{Sample size calculation for gene-specific mean and dispersion
-with different log fold change}
+with different fold change}
 
-If not all genes share the same log fold change, for example, if log fold 
-change comes from a normal distribution, 
-$$logfc \sim Normal(log(2), 0.5*log(2))$$
+If not all genes share the same fold change, for example, if fold 
+change comes from a log-normal distribution, 
+$$fc \sim log-Normal(log(2), 0.5*log(2))$$
 other parameters remain the same as in subsection 2.2, then the estimated 
 sample size is 14 with anticipated power 0.80 by \emph{ssizeRNA\_vary} 
 function.
 <<sim3_size, fig.height=4.5, fig.width=6>>=
 set.seed(2016)
-logfc <- function(x){rnorm(x, log(2), 0.5*log(2))}
+fc <- function(x){exp(rnorm(x, log(2), 0.5*log(2)))}
 size3 <- ssizeRNA_vary(nGenes = 10000, pi0 = 0.8, m = 200, mu = mu, 
-                       disp = disp, logfc = logfc, fdr = 0.05, 
+                       disp = disp, fc = fc, fdr = 0.05, 
                        power = 0.8, maxN = 20, replace = FALSE)
 size3$ssize
 @
@@ -223,7 +223,7 @@ size3$ssize
 By the following command, we verified that the desired power 0.8 is achieved
 at the calculated sample size 14 for voom and limma pipeline. 
 <<sim3_power>>=
-check.power(m = 14, mu = mu, disp = disp, logfc = logfc, sims = 10, 
+check.power(m = 14, mu = mu, disp = disp, fc = fc, sims = 10, 
             replace = FALSE)
 @
 
