@@ -1,8 +1,8 @@
 Package: ssizeRNA
 Type: Package
 Title: Sample Size Calculation for RNA-Seq Experimental Design
-Version: 1.2.8
-Date: 2016-10-19
+Version: 1.2.9
+Date: 2017-01-05
 Authors@R: c(
     person("Ran", "Bi", email = "biran@iastate.edu", role = c("aut", "cre")),
     person("Peng", "Liu", email = "pliu@iastate.edu", role = "aut"),
@@ -24,15 +24,15 @@ Depends: R (>= 3.2.3)
 Imports: MASS, Biobase, edgeR, limma, qvalue, ssize.fdr, graphics,
         stats
 VignetteBuilder: knitr
-Suggests: BiocStyle, knitr
+Suggests: knitr
 License: GPL (>= 2)
 biocViews: GeneExpression, DifferentialExpression, ExperimentalDesign,
         Sequencing, RNASeq, DNASeq, Microarray
 RoxygenNote: 5.0.1
 NeedsCompilation: no
-Packaged: 2016-10-20 21:18:40 UTC; Ran
+Packaged: 2017-01-06 00:17:10 UTC; Ran
 Author: Ran Bi [aut, cre],
   Peng Liu [aut],
   Tim Triche [ctb]
 Repository: CRAN
-Date/Publication: 2016-10-22 12:17:42
+Date/Publication: 2017-01-09 10:00:34

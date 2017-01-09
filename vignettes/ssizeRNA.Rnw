@@ -6,16 +6,14 @@
 % library('knitr'); rm(list=ls()); knit('ssizeRNA.Rnw')
 
 \documentclass[12pt]{article}
+\usepackage{url}
+\usepackage[authoryear]{natbib}
 
 <<knitr, echo=FALSE, results="hide">>=
 library("knitr")
 opts_chunk$set(
   message=FALSE)
 @ 
-
-<<style-knitr, eval=TRUE, echo=FALSE, results="asis">>=
-    BiocStyle::latex()
-@
 
 <<loadpackage, echo=FALSE>>=
 library(Biobase)
@@ -240,6 +238,7 @@ offers a reliable approach for sample size calculation for RNA-seq experiments.
 sessionInfo()
 @
 
+\bibliographystyle{apalike}
 \bibliography{ssizeRNA_ref}
 
 \end{document}
