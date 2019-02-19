@@ -39,7 +39,7 @@
 #' @return \item{crit.vals}{critical value calculations with 
 #'                          corresponding sample sizes.}
 #' 
-#' @author Ran Bi \email{biran@@iastate.edu}, 
+#' @author Ran Bi \email{biranpier@@gmail.com}, 
 #'         Peng Liu \email{pliu@@iastate.edu}
 #' 
 #' @references Liu, P. and Hwang, J. T. G. (2007) Quick calculation for 

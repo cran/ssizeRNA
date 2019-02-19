@@ -38,7 +38,7 @@
 #' @return \item{delta}{log2 fold change for each gene between 
 #'                      treatment group and control group.}
 #' 
-#' @author Ran Bi \email{biran@@iastate.edu}, 
+#' @author Ran Bi \email{biranpier@@gmail.com}, 
 #'         Peng Liu \email{pliu@@iastate.edu}
 #' 
 #' @examples

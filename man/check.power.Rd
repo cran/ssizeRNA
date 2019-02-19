@@ -69,7 +69,7 @@ check.power(m = m, mu = mu, disp = disp, fc = fc, sims = 2)
 
 }
 \author{
-Ran Bi \email{biran@iastate.edu}, 
+Ran Bi \email{biranpier@gmail.com}, 
         Peng Liu \email{pliu@iastate.edu}
 }
 \references{

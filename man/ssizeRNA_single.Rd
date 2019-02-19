@@ -83,7 +83,7 @@ size$crit.vals          ## calculated critical value for each sample size
 
 }
 \author{
-Ran Bi \email{biran@iastate.edu}, 
+Ran Bi \email{biranpier@gmail.com}, 
         Peng Liu \email{pliu@iastate.edu}
 }
 \references{

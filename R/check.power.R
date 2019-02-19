@@ -37,7 +37,7 @@
 #' @return \item{fdr_bh_ave}{true false discovery rate when controlling FDR
 #'                           by q-value procedure (Storey et al., 2004).}
 #' 
-#' @author Ran Bi \email{biran@@iastate.edu}, 
+#' @author Ran Bi \email{biranpier@@gmail.com}, 
 #'         Peng Liu \email{pliu@@iastate.edu}
 #' 
 #' @references Benjamini, Y. and Hochberg, Y. (1995) 

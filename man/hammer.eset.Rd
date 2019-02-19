@@ -17,7 +17,7 @@ data(hammer.eset)
 RNA-seq data structured as an expressionSet.
 }
 \author{
-Ran Bi \email{biran@iastate.edu}, Peng Liu \email{pliu@iastate.edu}
+Ran Bi \email{biranpier@gmail.com}, Peng Liu \email{pliu@iastate.edu}
 }
 \keyword{
 datasets
