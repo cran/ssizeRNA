@@ -5,9 +5,9 @@
 \title{Sample Size Calculations for Two-Sample Microarray Experiments with 
 Differing Mean Expressions but fixed Standard Deviations Among Genes}
 \usage{
-ssize.twoSampVaryDelta(deltaMean, deltaSE, sigma, fdr = 0.05, power = 0.8,
-  pi0 = 0.95, maxN = 35, side = "two-sided", cex.title = 1.15,
-  cex.legend = 1)
+ssize.twoSampVaryDelta(deltaMean, deltaSE, sigma, fdr = 0.05,
+  power = 0.8, pi0 = 0.95, maxN = 35, side = "two-sided",
+  cex.title = 1.15, cex.legend = 1)
 }
 \arguments{
 \item{deltaMean}{location (mean) parameter of normal distribution 
@@ -76,10 +76,6 @@ size$power                ## calculated power for each sample size
 size$crit.vals            ## calculated critical value for each sample size
 
 }
-\author{
-Ran Bi \email{biranpier@gmail.com}, 
-        Peng Liu \email{pliu@iastate.edu}
-}
 \references{
 Liu, P. and Hwang, J. T. G. (2007) Quick calculation for 
 sample size while controlling false discovery rate with application 
@@ -94,4 +90,7 @@ false discovery rate for microarray experiments using ssize.fdr package.
          \code{\link{ssize.oneSamp}}, \code{\link{ssize.oneSampVary}}, 
          \code{\link{ssize.F}}, \code{\link{ssize.Fvary}}
 }
-
+\author{
+Ran Bi \email{biranpier@gmail.com}, 
+        Peng Liu \email{pliu@iastate.edu}
+}

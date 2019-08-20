@@ -82,10 +82,6 @@ size$power              ## calculated power for each sample size
 size$crit.vals          ## calculated critical value for each sample size
 
 }
-\author{
-Ran Bi \email{biranpier@gmail.com}, 
-        Peng Liu \email{pliu@iastate.edu}
-}
 \references{
 Liu, P. and Hwang, J. T. G. (2007) Quick calculation for 
 sample size while controlling false discovery rate with application 
@@ -102,4 +98,7 @@ unlock linear model analysis tools for RNA-seq read counts.
 \seealso{
 \code{\link{ssizeRNA_vary}}
 }
-
+\author{
+Ran Bi \email{biranpier@gmail.com}, 
+        Peng Liu \email{pliu@iastate.edu}
+}

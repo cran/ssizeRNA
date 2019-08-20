@@ -78,4 +78,3 @@ sim1 <- sim.counts(m = m, mu = mu, disp = disp, fc = fc1)
 Ran Bi \email{biranpier@gmail.com}, 
         Peng Liu \email{pliu@iastate.edu}
 }
-

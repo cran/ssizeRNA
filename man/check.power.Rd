@@ -68,10 +68,6 @@ fc <- 2                      ## 2-fold change for DE genes
 check.power(m = m, mu = mu, disp = disp, fc = fc, sims = 2)
 
 }
-\author{
-Ran Bi \email{biranpier@gmail.com}, 
-        Peng Liu \email{pliu@iastate.edu}
-}
 \references{
 Benjamini, Y. and Hochberg, Y. (1995) 
             Controlling the false discovery rate: a practical and 
@@ -83,4 +79,7 @@ Benjamini, Y. and Hochberg, Y. (1995)
             simultaneous rates: a unified approach. 
             \emph{J. R. Stat. Soc. B}, 66, 187- 205.
 }
-
+\author{
+Ran Bi \email{biranpier@gmail.com}, 
+        Peng Liu \email{pliu@iastate.edu}
+}
