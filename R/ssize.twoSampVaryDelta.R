@@ -50,9 +50,9 @@
 #' false discovery rate for microarray experiments using ssize.fdr package. 
 #' \emph{The R Journal}, 1, 1, May 2009, 47-53. 
 #' 
-#' @seealso \code{\link{ssize.twoSamp}}, \code{\link{ssize.twoSampVary}}, 
-#'          \code{\link{ssize.oneSamp}}, \code{\link{ssize.oneSampVary}}, 
-#'          \code{\link{ssize.F}}, \code{\link{ssize.Fvary}}
+#' @seealso \code{\link[ssize.fdr]{ssize.twoSamp}}, \code{\link[ssize.fdr]{ssize.twoSampVary}}, 
+#'          \code{\link[ssize.fdr]{ssize.oneSamp}}, \code{\link[ssize.fdr]{ssize.oneSampVary}}, 
+#'          \code{\link[ssize.fdr]{ssize.F}}, \code{\link[ssize.fdr]{ssize.Fvary}}
 #' 
 #' @examples
 #' dm <- 1.2; ds <- 0.1  ## the delta.g's follow a Normal(1.2, 0.1) distribution
